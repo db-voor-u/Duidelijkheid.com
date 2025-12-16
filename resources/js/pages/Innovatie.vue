@@ -228,7 +228,7 @@ const techStack = computed(() => [...baseStack, ...baseStack])
             </div>
 
             <!-- 3D Carousel Container -->
-            <div class="perspective-container group relative mx-auto flex h-[400px] -mt-32 w-full max-w-5xl items-center justify-center" style="perspective: 1000px;">
+            <div class="perspective-container group relative mx-auto flex h-[400px] -mt-4 w-full max-w-5xl items-center justify-center" style="perspective: 1000px;">
                 
                 <!-- Rotating Axis (Centered 0x0 wrapper) -->
                 <div 
@@ -240,7 +240,7 @@ const techStack = computed(() => [...baseStack, ...baseStack])
                     <template v-for="(tech, i) in techStack" :key="i">
                         <!-- Positioning Wrapper (Handles 3D Rotation) -->
                         <div 
-                            class="absolute left-0 top-0 flex items-center justify-center"
+                            class="absolute left-0 top-0 -ml-[4.5rem] -mt-12 flex items-center justify-center"
                             :style="{
                                 transform: `rotateY(${i * (360 / techStack.length)}deg) translateZ(380px)`
                             }"
@@ -262,6 +262,20 @@ const techStack = computed(() => [...baseStack, ...baseStack])
                 
                 <!-- Gradient Overlay for smooth fade at edges -->
                 <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-transparent to-background dark:from-background"></div>
+            </div>
+
+            <!-- Tech Stack Description -->
+            <div class="relative z-10 mt-12 mb-8 max-w-2xl px-4 text-center">
+                <span class="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                    Onze Stack
+                </span>
+                <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">
+                    Innovatieve Technologieën
+                </h2>
+                <p class="mt-4 text-base text-muted-foreground">
+                    Wij maken gebruik van de nieuwste en meest betrouwbare open-source tools. 
+                    Van een robuuste <strong>Linux</strong> en <strong>MySQL</strong> fundering tot de kracht van <strong>Laravel</strong> en de flexibiliteit van <strong>Vue.js</strong>.
+                </p>
             </div>
         </section>
         

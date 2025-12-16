@@ -30,10 +30,7 @@ export const adminRoutes = {
     overonsBlogCreate: '/hoofdbeheerder/over-ons-blog/aanmaken', // Create
     overonsBlogStore: '/hoofdbeheerder/over-ons-blog',        // Store (POST)
 
-    // 👇 Innovatie Blog Routes
-    innovatieBlog: '/hoofdbeheerder/innovatie',
-    innovatieBlogCreate: '/hoofdbeheerder/innovatie/aanmaken',
-    innovatieBlogStore: '/hoofdbeheerder/innovatie',
+
 
     contact: '/hoofdbeheerder/contact',
     contactCreate: '/hoofdbeheerder/contact/nieuw',
@@ -56,13 +53,7 @@ export const adminRouteFns = {
     overonsBlogDestroy: (slug: string) =>
         `/hoofdbeheerder/over-ons-blog/${slug}`,
 
-    // Innovatie routes
-    innovatieBlogEdit: (slug: string) =>
-        `/hoofdbeheerder/innovatie/${slug}/bewerken`,
-    innovatieBlogUpdate: (slug: string) =>
-        `/hoofdbeheerder/innovatie/${slug}`,
-    innovatieBlogDestroy: (slug: string) =>
-        `/hoofdbeheerder/innovatie/${slug}`,
+
 
     // Contact actions (admin)
     contactShow: (id: number | string) => `/hoofdbeheerder/contact/${id}`,

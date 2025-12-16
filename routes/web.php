@@ -198,14 +198,7 @@ Route::prefix('hoofdbeheerder')->name('admin.')->group(function () {
         // -------------------------------------------------------------
         // ADMIN ROUTES VOOR 'INNOVATIE BLOG'
         // -------------------------------------------------------------
-        Route::prefix('innovatie')->name('innovatieBlog.')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Admin\InnovatieBlogController::class, 'index'])->name('index');
-            Route::get('/aanmaken', [\App\Http\Controllers\Admin\InnovatieBlogController::class, 'create'])->name('create');
-            Route::post('/', [\App\Http\Controllers\Admin\InnovatieBlogController::class, 'store'])->name('store');
-            Route::get('/{post}/bewerken', [\App\Http\Controllers\Admin\InnovatieBlogController::class, 'edit'])->name('edit');
-            Route::put('/{post}', [\App\Http\Controllers\Admin\InnovatieBlogController::class, 'update'])->name('update');
-            Route::delete('/{post}', [\App\Http\Controllers\Admin\InnovatieBlogController::class, 'destroy'])->name('destroy');
-        });
+
         // -------------------------------------------------------------
 
         // Categorieën management

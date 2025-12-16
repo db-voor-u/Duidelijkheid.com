@@ -366,7 +366,72 @@ class BlogController extends Controller
         return Inertia::render('admin/pages/Blog', ['blogPage' => $page]);
     }
     public function pageUpdate(Request $request)
-    { /* ... */
+    {
+        $page = BlogPage::firstOrCreate(['id' => 1], ['title' => 'Blog']);
+
+        $messages = [
+            'required' => 'Dit veld is verplicht.',
+            'string' => 'Dit veld moet tekst zijn.',
+            'max' => [
+                'string' => 'Mag niet meer dan :max tekens bevatten.',
+                'file' => 'Bestand mag niet groter zijn dan :max kilobytes.',
+            ],
+            'boolean' => 'Dit veld moet waar of onwaar zijn.',
+            'image' => 'Dit moet een geldig afbeeldingsbestand zijn.',
+            'url' => 'Voer een geldige URL in.',
+        ];
+
+        $rules = [
+            'title' => 'nullable|string|max:255',
+            'content' => 'nullable|string',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:255',
+            'canonical_url' => 'nullable|url',
+            'robots_index' => 'boolean',
+            'robots_follow' => 'boolean',
+        ];
+
+        // Validatie voor afbeeldingen
+        if ($request->hasFile('image')) {
+            $rules['image'] = 'image|max:' . self::MAX_IMAGE_KB;
+        }
+        if ($request->hasFile('seo_image')) {
+            $rules['seo_image'] = 'image|max:' . self::MAX_IMAGE_KB;
+        }
+
+        $data = $request->validate($rules, $messages);
+
+        // Afhandeling Hero Image
+        // Let op: In Blade/andere controllers heet het soms image_path in DB, maar form stuurt 'image'.
+        if ($request->hasFile('image')) {
+            if ($page->image_path) {
+                Storage::disk('public')->delete($page->image_path);
+            }
+            $data['image_path'] = $request->file('image')->store('blog/hero', 'public');
+        } elseif ($request->input('image') === 'DELETE') {
+            if ($page->image_path) {
+                Storage::disk('public')->delete($page->image_path);
+            }
+            $data['image_path'] = null;
+        }
+
+        // Afhandeling SEO Image
+        if ($request->hasFile('seo_image')) {
+            if ($page->seo_image_path) {
+                Storage::disk('public')->delete($page->seo_image_path);
+            }
+            $data['seo_image_path'] = $request->file('seo_image')->store('blog/seo', 'public');
+        } elseif ($request->input('seo_image') === 'DELETE') {
+            if ($page->seo_image_path) {
+                Storage::disk('public')->delete($page->seo_image_path);
+            }
+            $data['seo_image_path'] = null;
+        }
+
+        unset($data['image'], $data['seo_image']);
+
+        $page->update($data);
+
         return back()->with('success', 'Blogpagina opgeslagen.');
     }
 }
