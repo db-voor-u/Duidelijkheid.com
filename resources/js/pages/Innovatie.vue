@@ -13,7 +13,6 @@ import CategoryList from '@/components/CategoryList.vue'
 import MagicMenu from '@/components/MagicMenu.vue'
 import ContactSection from '@/components/ContactSection.vue'
 
-// -------- Types --------
 
 type PostCard = {
     title: string
@@ -30,7 +29,6 @@ type PostCard = {
 type LinkItem = { url: string | null; label: string; active: boolean }
 type Paginated<T> = { data: T[]; links: LinkItem[]; meta?: Record<string, any> }
 
-// -------- Page Data --------
 type InnovatiePage = {
     title?: string
     content?: string
@@ -81,7 +79,6 @@ const cards = computed(() =>
     })),
 )
 
-// -------- Pagination helpers --------
 const decodeEntities = (html?: string) => {
     if (!html) return ''
     const el = document.createElement('textarea')
@@ -107,7 +104,6 @@ const normLinks = computed(() => {
         return { ...l, _type: type, _label: raw }
     })
 
-    // Only show Previous/Next arrows if there are more than 3 pages
     const pageCount = links.filter(l => l._type === 'page').length
     if (pageCount <= 3) {
         return links.filter(l => l._type === 'page')
@@ -116,7 +112,6 @@ const normLinks = computed(() => {
     return links
 })
 
-// -------- Video helpers --------
 const getYoutubeId = (url?: string | null) => {
     if (!url) return null
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
@@ -135,7 +130,6 @@ const currentPage = computed(() => {
 
 const articlesTitle = computed(() => currentPage.value > 1 ? 'Meer artikelen zien' : 'Alle artikelen')
 
-// Get selected category from URL
 const inertiaPage = usePage()
 const selectedCategorySlug = computed(() => {
     const url = inertiaPage.url as string
@@ -150,7 +144,6 @@ const selectedCategory = computed(() => {
 })
 
 
-// -------- Tech Stack Data --------
 const baseStack = [
     {
         name: 'Linux',
@@ -194,10 +187,8 @@ const baseStack = [
     }
 ]
 
-// Duplicate to create that "full circle" effect with 12 items
 const techStack = computed(() => [...baseStack, ...baseStack])
 
-// ... (rest of methods)
 
 
 </script>
