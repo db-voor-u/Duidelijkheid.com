@@ -184,7 +184,7 @@ const getYoutubeThumbnail = (url?: string | null) => {
             <!-- Afbeelding: Natural flow (w-full h-auto) om de hele afbeelding te tonen -->
             <figure
                 v-if="hasImage"
-                class="w-full overflow-hidden rounded-xl mb-10"
+                class="w-full max-w-2xl overflow-hidden rounded-xl mb-10"
             >
                 <img
                     :src="heroImage"
