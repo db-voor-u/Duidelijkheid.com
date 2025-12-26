@@ -11,25 +11,28 @@ class Blog extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        // Content
         'title',
         'slug',
         'excerpt',
         'content',
         'cover_image_path',
 
-        // 👇 MEDIA VELDEN TOEGEVOEGD
+        // Media
         'media_type',
         'video_path',
-
-        // 👇 DOWNLOAD VELD TOEGEVOEGD
         'download_file_path',
-        // 👇 NIEUW: Voor de lijst met extra bestanden
         'extra_files_paths',
+        'external_url',      // Externe link (nieuw toegevoegd)
 
-        'category_id', // 👇 Categorie FK
+        // Relaties
+        'category_id',
 
+        // Publicatie
         'is_published',
         'published_at',
+
+        // SEO
         'meta_title',
         'meta_description',
         'canonical_url',

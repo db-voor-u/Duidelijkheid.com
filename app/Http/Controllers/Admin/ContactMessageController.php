@@ -161,12 +161,15 @@ class ContactMessageController extends Controller
         $cc = $this->splitEmails($data['cc'] ?? '');
         $bcc = $this->splitEmails($data['bcc'] ?? '');
 
+        // Bereid de email body voor (detecteert HTML vs platte tekst)
+        $emailBody = $this->prepareEmailBody($data['body']);
+
         // Verstuur de e-mail
         try {
             Mail::to($data['to_email'])
                 ->cc($cc)
                 ->bcc($bcc)
-                ->send(new AdminContactReply($data['subject'], $data['body']));
+                ->send(new AdminContactReply($data['subject'], $emailBody));
         } catch (\Exception $e) {
             Log::error('Fout bij versturen admin antwoord: ' . $e->getMessage());
             // Keer terug met een foutmelding (dit is waarschijnlijk je .env probleem)
@@ -244,11 +247,14 @@ class ContactMessageController extends Controller
             }
         }
 
+        // Bereid de email body voor (detecteert HTML vs platte tekst)
+        $emailBody = $this->prepareEmailBody($data['body']);
+
         try {
             Mail::to($message->email)
                 ->cc($cc)
                 ->bcc($bcc)
-                ->send(new AdminContactReply($data['subject'], $data['body'], $attachmentPath, $attachmentName));
+                ->send(new AdminContactReply($data['subject'], $emailBody, $attachmentPath, $attachmentName));
         } catch (\Exception $e) {
             Log::error('Fout bij versturen admin antwoord: ' . $e->getMessage());
             return Redirect::back()->withErrors(['message' => 'Fout bij versturen antwoord: ' . $e->getMessage()]);
@@ -317,12 +323,15 @@ class ContactMessageController extends Controller
             }
         }
 
+        // Bereid de email body voor (detecteert HTML vs platte tekst)
+        $emailBody = $this->prepareEmailBody($data['body']);
+
         // Versturen
         try {
             Mail::to($data['email'], $data['name'] ?? null)
                 ->cc($cc)
                 ->bcc($bcc)
-                ->send(new AdminContactReply($data['subject'], $data['body'], $attachmentPath, $attachmentName));
+                ->send(new AdminContactReply($data['subject'], $emailBody, $attachmentPath, $attachmentName));
 
         } catch (\Throwable $e) {
             Log::warning('Admin contact send failed: ' . $e->getMessage(), ['exception' => $e]);
@@ -358,6 +367,23 @@ class ContactMessageController extends Controller
     {
         $parts = preg_split('/[,\s;]+/', $value, -1, PREG_SPLIT_NO_EMPTY) ?: [];
         return array_values(array_filter($parts, fn($e) => filter_var($e, FILTER_VALIDATE_EMAIL)));
+    }
+
+    /**
+     * Prepare email body - detect if input is HTML or plain text
+     * If HTML (from RichTextEditor): pass through as-is
+     * If plain text (from textarea): convert newlines to <br>
+     */
+    private function prepareEmailBody(string $body): string
+    {
+        // Check if body contains HTML tags (from RichTextEditor)
+        if (preg_match('/<[^>]+>/', $body)) {
+            // Already HTML, return as-is (trusted admin input)
+            return $body;
+        }
+
+        // Plain text - escape and convert newlines to <br>
+        return nl2br(e($body));
     }
 
     /**

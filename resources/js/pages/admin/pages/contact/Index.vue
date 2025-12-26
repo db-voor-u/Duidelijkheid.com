@@ -117,6 +117,7 @@ watch([status, onlySpam], () => {
 /* ---------- Helpers ---------- */
 const short = (s:string, n=90) => s.length > n ? s.slice(0, n-1) + '…' : s
 const dt = (iso?: string|null) => iso ? new Date(iso).toLocaleString('nl-NL', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—'
+const toTitleCase = (name: string) => name?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') || ''
 const msToSec = (ms?: number) => typeof ms === 'number' ? Math.round(ms/1000) : null
 const statusBadge = (s:ContactMessage['status']) => {
     switch (s) {
@@ -194,7 +195,7 @@ function openReply(m:ContactMessage){
     replyForm.cc = ''
     replyForm.bcc = ''
     replyForm.attachment = null
-    replyForm.body = `Beste ${m.name},\n\n\n\nMet vriendelijke groet,\n\nTeam Duidelijkheid`
+    replyForm.body = `Beste ${toTitleCase(m.name)},\n\n\n\nMet vriendelijke groet,\n\nTeam Duidelijkheid`
     replyOpen.value = true
 }
 

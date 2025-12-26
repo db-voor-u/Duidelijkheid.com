@@ -60,7 +60,7 @@ type CategoryOption = {
 // --- PROPS ---
 const props = defineProps<{ post?: BlogType | null; categories?: CategoryOption[]; success?: string }>()
 const isEdit = computed(() => !!props.post?.id)
-const originalSlug = props.post?.slug ?? ''
+const originalSlug = computed(() => props.post?.slug ?? '')
 
 const safe = computed(() => ({
     title: props.post?.title ?? '',
@@ -293,7 +293,7 @@ function submit() {
         return
     }
 
-    const url = isEdit.value ? adminRouteFns.blogUpdate(originalSlug) : routes.admin.blogStore
+    const url = isEdit.value ? adminRouteFns.blogUpdate(originalSlug.value) : routes.admin.blogStore
 
     const transform = (data: any) => ({
         ...data,

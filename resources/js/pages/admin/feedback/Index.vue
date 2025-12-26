@@ -42,10 +42,13 @@ const toggleRead = (id: number) => {
     router.patch(`/hoofdbeheerder/feedback/${id}/read`)
 }
 
+const toTitleCase = (name: string) => name?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') || ''
+
 const sendEmail = (email?: string, name?: string) => {
     if (email) {
         const subject = 'Reactie op uw feedback - Duidelijkheid.com'
-        const body = `<p>Beste ${name || 'gebruiker'},</p><p>Bedankt voor uw feedback.</p><p><br></p><p>Met vriendelijke groet,</p><p>Team Duidelijkheid.com</p>`
+        const formattedName = name ? toTitleCase(name) : 'gebruiker'
+        const body = `<p>Beste ${formattedName},</p><p>Bedankt voor uw feedback.</p><p><br></p><p>Met vriendelijke groet,</p><p>Team Duidelijkheid.com</p>`
         
         router.get('/hoofdbeheerder/contact/opstellen', {
             email: email,

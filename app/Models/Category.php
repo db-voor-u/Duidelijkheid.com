@@ -10,9 +10,20 @@ class Category extends Model
 {
     protected $fillable = ['name', 'slug', 'color', 'type'];
 
+    /**
+     * Blogs die tot deze categorie behoren (hoofdblog)
+     */
     public function blogs(): HasMany
     {
         return $this->hasMany(Blog::class);
+    }
+
+    /**
+     * Over Ons blogs die tot deze categorie behoren
+     */
+    public function overOnsBlogs(): HasMany
+    {
+        return $this->hasMany(OverOnsBlog::class);
     }
 
     // Helper to auto-generate slug if missing

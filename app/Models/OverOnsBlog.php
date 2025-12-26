@@ -12,17 +12,28 @@ class OverOnsBlog extends Model
     protected $table = 'over_ons_blogs';
 
     protected $fillable = [
+        // Content
         'title',
         'slug',
         'excerpt',
         'content',
         'cover_image_path',
+
+        // Media
         'media_type',
         'video_path',
         'download_file_path',
+        'extra_files_paths',
+        'external_url',      // Externe link (nieuw toegevoegd)
+
+        // Relaties
+        'category_id',
+
+        // Publicatie
         'is_published',
         'published_at',
-        'category_id',
+
+        // SEO
         'meta_title',
         'meta_description',
         'canonical_url',
@@ -36,6 +47,7 @@ class OverOnsBlog extends Model
         'robots_index' => 'boolean',
         'robots_follow' => 'boolean',
         'published_at' => 'datetime',
+        'extra_files_paths' => 'array', // JSON kolom als array
     ];
 
     public function getRouteKeyName(): string

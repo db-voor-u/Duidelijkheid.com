@@ -41,6 +41,8 @@ function getStatusVariant(status: string) {
     }
 }
 
+const toTitleCase = (name: string) => name?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') || ''
+
 /* Reply Logic */
 const replyOpen = ref(false)
 const replySuccess = ref(false)
@@ -63,7 +65,7 @@ function openReplyDialog() {
     replyForm.cc = ''
     replyForm.bcc = ''
     replyForm.attachment = null
-    replyForm.body = `Beste ${props.message.name},\n\n\n\nMet vriendelijke groet,\n\nTeam Duidelijkheid`
+    replyForm.body = `Beste ${toTitleCase(props.message.name)},\n\n\n\nMet vriendelijke groet,\n\nTeam Duidelijkheid`
     replyOpen.value = true
 }
 

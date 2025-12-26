@@ -42,11 +42,14 @@ const deleteFeedback = () => {
     }
 }
 
+const toTitleCase = (name: string) => name?.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ') || ''
+
 const sendEmail = () => {
     if (props.feedback.email) {
         const appName = document.title.split(' - ')[1] || 'Duidelijkheid.com'
         const subject = `Reactie op uw feedback - ${appName}`
-        const body = `<p>Beste ${props.feedback.name || 'gebruiker'},</p><p>Bedankt voor uw feedback.</p><p><br></p><p>Met vriendelijke groet,</p><p>Team ${appName}</p>`
+        const formattedName = props.feedback.name ? toTitleCase(props.feedback.name) : 'gebruiker'
+        const body = `<p>Beste ${formattedName},</p><p>Bedankt voor uw feedback.</p><p><br></p><p>Met vriendelijke groet,</p><p>Team ${appName}</p>`
         
         router.get('/hoofdbeheerder/contact/opstellen', {
             email: props.feedback.email,

@@ -25,31 +25,31 @@ class OverOnsPage extends Model
         'hero_image_path',
         'seo_image_path',
 
-        // SEO
-        'meta_title',
-        'meta_description',
+        // SEO - Gestandaardiseerde naamgeving
+        'meta_title',       // Primair SEO titel veld
+        'meta_description', // Primair SEO beschrijving veld
         'canonical_url',
-        'seo_title',
-        'seo_description',
+        'seo_title',        // Legacy alias (gebruik meta_title)
+        'seo_description',  // Legacy alias (gebruik meta_description)
 
         // Status
         'robots_index',
         'robots_follow',
         'published',
         'updated_by',
-        'id',
+        // 'id' verwijderd - nooit primary key in fillable plaatsen (security)
     ];
 
     protected $casts = [
-        'robots_index'  => 'boolean',
+        'robots_index' => 'boolean',
         'robots_follow' => 'boolean',
-        'published'     => 'boolean',
+        'published' => 'boolean',
     ];
 
     protected $attributes = [
-        'robots_index'  => true,
+        'robots_index' => true,
         'robots_follow' => true,
-        'published'     => true,
+        'published' => true,
     ];
 
     // --- Accessors (Aliases) ---
@@ -57,12 +57,13 @@ class OverOnsPage extends Model
     // Alias voor frontend
     protected function imagePath(): Attribute
     {
-        return Attribute::get(fn () => $this->hero_image_path);
+        return Attribute::get(fn() => $this->hero_image_path);
     }
 
     protected function metaTitle(): Attribute
     {
-        return Attribute::get(fn () =>
+        return Attribute::get(
+            fn() =>
             $this->attributes['meta_title']
             ?? $this->attributes['seo_title']
             ?? null
@@ -71,7 +72,8 @@ class OverOnsPage extends Model
 
     protected function metaDescription(): Attribute
     {
-        return Attribute::get(fn () =>
+        return Attribute::get(
+            fn() =>
             $this->attributes['meta_description']
             ?? $this->attributes['seo_description']
             ?? null
